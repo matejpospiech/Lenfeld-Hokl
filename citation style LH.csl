@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never" default-locale="cs-CZ">
+  <info>
+    <title>Hygiena alimentorum (Author-Date, Czech, Custom pro VETUNI)</title>
+    <id>http://www.zotero.org/styles/iso690-custom-faculty-v2</id>
+    <link href="http://www.zotero.org/styles/iso690-author-date-cs" rel="self"/>
+    <author><name>Gemini</name></author>
+    <category citation-format="author-date"/>
+    <updated>2026-10-04T12:00:00+00:00</updated>
+  </info>
+
+  <locale xml:lang="cs">
+    <terms>
+      <term name="et-al">et al.</term>
+      <term name="page" form="short">pp.</term>
+      <term name="volume" form="short">vol.</term>
+      <term name="issue" form="short">no.</term>
+    </terms>
+  </locale>
+
+  <macro name="author">
+    <names variable="author">
+      <!-- Odstraněny verzálky, přidány mezery za iniciály a čárky jako oddělovač -->
+      <name name-as-sort-order="all" sort-separator=", " initialize-with=". " delimiter=", " delimiter-precedes-last="always">
+        <name-part name="family"/>
+      </name>
+      <substitute>
+        <names variable="editor"/>
+        <text variable="title"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="year-date">
+    <choose>
+      <if variable="issued">
+        <date variable="issued"><date-part name="year"/></date>
+      </if>
+      <else><text term="no date" form="short"/></else>
+    </choose>
+  </macro>
+
+  <macro name="locator">
+    <group delimiter=", ">
+      <group delimiter=" ">
+        <label variable="volume" form="short"/>
+        <text variable="volume"/>
+      </group>
+      <group delimiter=" ">
+        <label variable="issue" form="short"/>
+        <text variable="issue"/>
+      </group>
+      <group delimiter=" ">
+        <label variable="page" form="short"/>
+        <text variable="page"/>
+      </group>
+    </group>
+  </macro>
+
+  <macro name="access">
+    <choose>
+      <!-- Preferuje se DOI, přidá automaticky prefix -->
+      <if variable="DOI">
+        <text variable="DOI" prefix="Dostupné na: https://doi.org/"/>
+      </if>
+      <!-- Fallback na URL, pokud DOI chybí -->
+      <else-if variable="URL">
+        <text variable="URL" prefix="Dostupné na: "/>
+      </else-if>
+    </choose>
+  </macro>
+
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true">
+    <layout prefix="(" suffix=")" delimiter="; ">
+      <group delimiter=", ">
+        <names variable="author">
+          <name form="short" delimiter=", "/>
+          <substitute>
+            <text variable="title" form="short"/>
+          </substitute>
+        </names>
+        <text macro="year-date"/>
+      </group>
+    </layout>
+  </citation>
+
+  <bibliography et-al-min="4" et-al-use-first="1">
+    <sort>
+      <key macro="author"/>
+      <key macro="year-date"/>
+    </sort>
+    <!-- Odstraněno číslování (second-field-align) a přeskládán layout -->
+    <layout suffix=".">
+      <group delimiter=" ">
+        <text macro="author"/>
+        <text macro="year-date" suffix="."/>
+        <text variable="title" suffix="."/>
+        <group delimiter=", " suffix=".">
+          <text variable="container-title" font-style="italic"/>
+          <text macro="locator"/>
+        </group>
+        <text macro="access"/>
+      </group>
+    </layout>
+  </bibliography>
+</style>
